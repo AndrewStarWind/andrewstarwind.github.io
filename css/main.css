@@ -1,0 +1,78 @@
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    margin: 20px auto 50px auto;
+}
+.buttons__generate,
+.buttons__sort{
+    padding: 15px 0;
+    width: 300px;
+    background-color: #45b445;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3em;
+    color: #fff;
+    font-weight: 200;
+    font-family: 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+.buttons__sort {
+    background-color: rgba(255, 85, 78, 1);
+}
+.bubbles {
+    position: relative;
+    width: 800px;
+    height: 70px;
+    margin: 60px auto;
+}
+.bubbles p {
+    text-align: center;
+    margin:0;
+    font-size: 1.3em;
+}
+
+.bubble {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    display: block;
+    width: 50px;
+    height: 50px;
+    font-size: 1.3em;
+    font-weight: 200;
+    font-family: 'Trebuchet MS', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: -1px;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    background: #5a99d4;
+    box-shadow: 0 0 0 0 rgba(255, 119, 127, .5);
+    cursor: default;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+
+}
+.bubble-current {
+    animation: pulse 1.5s infinite;
+}
+@-webkit-keyframes pulse {
+    0% {
+    @include transform(scale(.9));
+    }
+    70% {
+    @include transform(scale(1));
+        box-shadow: 0 0 0 25px rgba(255, 119, 127, 0);
+    }
+    100% {
+    @include transform(scale(.9));
+        box-shadow: 0 0 0 0 rgba(255, 119, 127, 0);
+    }
+}

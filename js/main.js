@@ -33,7 +33,7 @@
          *
          * @param element - сслыка на элемент
          */
-        constructor( element ) {
+        constructor(element) {
             this.element = element;
         }
         /**
@@ -107,7 +107,7 @@
                     if (isSwap){
                         $bubble1.animate( {top: '-10px'}, 150, function() {
                             $bubble1.animate( {left: bubble2LeftOffset}, 150, function() {
-                                $bubble2.animate ({top: '40px'}, 150 );
+                                $bubble2.animate ( {top: '40px'}, 150 );
                                 $bubble1.animate( {top: '40px'}, 150, function() {
                                     $bubble1.removeClass( 'bubble-current' );
                                     $bubble2.removeClass( 'bubble-current' );

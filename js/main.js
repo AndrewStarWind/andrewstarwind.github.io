@@ -58,8 +58,8 @@
          * Выолняет сортировку массива, а так же заполняет цепочку промисов,
          * выполняющих анимацию
          */
-        sort(){
-            this._copyContainer().then(() => {
+        sort() {
+            this._copyContainer().then( () => {
                 this.element.find( 'p' ).text( 'Идёт сортировка...' );
                 let len = this.bubbles.length,
                     promise = Promise.resolve();
@@ -76,14 +76,14 @@
                             this.bubbles[j + 1] = temp;
                             isSwap = true
                         }
-                       promise =  promise.then( () => { return this._swapBubbles( $bubble1, $bubble2, isSwap ) });
+                       promise =  promise.then( () => { return this._animateBubbles( $bubble1, $bubble2, isSwap ) } );
                     }
                 }
                 promise.then( () => {
                     $( '.buttons__generate' ).removeClass( 'disabled' );
                     this.element.find( 'p' ).text( 'Отсортированный массив:' );
-                })
-            });
+                } )
+            } );
 
         }
 
@@ -92,34 +92,34 @@
          * @param $bubble1 - ссылка на первый пузырёк
          * @param $bubble2 - ссылка на второй пузырёк
          * @param isSwap - нужно ли менять их местами
-         * @returns {Promise} - возвращается после заверешния анимации
+         * @returns {Promise} - возвращается после заверешения анимации
          * @private
          */
-        _swapBubbles($bubble1, $bubble2, isSwap) {
-            let bubble1LeftOffset = $bubble1.css('left'),
-                bubble2LeftOffset = $bubble2.css('left');
+        _animateBubbles($bubble1, $bubble2, isSwap) {
+            let bubble1LeftOffset = $bubble1.css( 'left' ),
+                bubble2LeftOffset = $bubble2.css( 'left' );
 
-            $bubble1.addClass('bubble-current');
-            $bubble2.addClass('bubble-current');
+            $bubble1.addClass( 'bubble-current' );
+            $bubble2.addClass( 'bubble-current' );
 
             return new Promise((resolve) => {
                 setTimeout(() => {
                     if (isSwap){
-                        $bubble1.animate({top: '-10px'}, 150, function() {
-                            $bubble1.animate({left: bubble2LeftOffset}, 150, function() {
-                                $bubble2.animate({top: '40px'}, 150);
-                                $bubble1.animate({top: '40px'}, 150, function() {
-                                    $bubble1.removeClass('bubble-current');
-                                    $bubble2.removeClass('bubble-current');
+                        $bubble1.animate( {top: '-10px'}, 150, function() {
+                            $bubble1.animate( {left: bubble2LeftOffset}, 150, function() {
+                                $bubble2.animate ({top: '40px'}, 150 );
+                                $bubble1.animate( {top: '40px'}, 150, function() {
+                                    $bubble1.removeClass( 'bubble-current' );
+                                    $bubble2.removeClass( 'bubble-current' );
                                     resolve();
-                                })
-                            });
-                            $bubble2.animate({left: bubble1LeftOffset}, 150);
-                        });
-                        $bubble2.animate({top: '90px'}, 150)
+                                } )
+                            } );
+                            $bubble2.animate( {left: bubble1LeftOffset}, 150 );
+                        } );
+                        $bubble2.animate( {top: '90px'}, 150 )
                     } else {
-                        $bubble1.removeClass('bubble-current');
-                        $bubble2.removeClass('bubble-current');
+                        $bubble1.removeClass( 'bubble-current' );
+                        $bubble2.removeClass( 'bubble-current' );
                         resolve();
                     }
                 }, 700);
@@ -162,14 +162,14 @@
         let sort = new Sort( $( '.bubbles' ) );
 
         $( '.buttons__generate' ).click(function () {
-            if (!$(this).hasClass('disabled')) {
-                $('.buttons__sort').removeClass( 'disabled' );
+            if (!$(this).hasClass( 'disabled' )) {
+                $( '.buttons__sort' ).removeClass( 'disabled' );
                 sort.init();
             }
         });
 
         $( '.buttons__sort' ).click(function () {
-            if (!$(this).hasClass( 'disabled' )){
+            if (!$(this).hasClass( 'disabled' )) {
                 $(this).addClass( 'disabled' );
                 $( '.buttons__generate' ).addClass( 'disabled' );
                 sort.sort();

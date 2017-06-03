@@ -43,7 +43,7 @@
             this.element.empty().hide();
             $('.old-bubbles-js').remove();
             this.bubbles = [];
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 10; i++) {
                 let number = this._getRandomNumber( 0, 999 ),
                     bubble = new Bubble( number, i, this.element );
 

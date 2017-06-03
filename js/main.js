@@ -49,7 +49,7 @@
 
                 this.bubbles.push( bubble );
             }
-            this.element.prepend( '<p>Сгенерированный массив</p>' );
+            this.element.prepend( '<p>Сгенерированный массив:</p>' );
             this.element.fadeIn();
         }
 
@@ -62,7 +62,7 @@
             this._copyContainer().then(() => {
                 this.element.find( 'p' ).text( 'Идёт сортировка...' );
                 let len = this.bubbles.length,
-                    promise = new Promise( (resolve, reject) => {resolve()} );
+                    promise = Promise.resolve();
 
                 for (let i = 0; i < len ; i++) {
                     for(let j = 0 ; j < len - i - 1; j++){
@@ -81,7 +81,7 @@
                 }
                 promise.then( () => {
                     $( '.buttons__generate' ).removeClass( 'disabled' );
-                    this.element.find( 'p' ).text( 'Отсортированный массив' );
+                    this.element.find( 'p' ).text( 'Отсортированный массив:' );
                 })
             });
 
@@ -163,7 +163,7 @@
 
         $( '.buttons__generate' ).click(function () {
             if (!$(this).hasClass('disabled')) {
-                $('.buttons__sort').fadeIn();
+                $('.buttons__sort').removeClass( 'disabled' );
                 sort.init();
             }
         });

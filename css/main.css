@@ -1,7 +1,8 @@
-.instructions {
+.center {
     width: 800px;
     margin: 0 auto;
 }
+
 .instructions h1 {
     text-align: center;
 }
@@ -33,7 +34,6 @@
 }
 .bubbles {
     position: relative;
-    width: 800px;
     height: 70px;
     margin: 60px auto;
 }

@@ -1,3 +1,11 @@
+.instructions {
+    width: 800px;
+    margin: 0 auto;
+}
+.instructions h1 {
+    text-align: center;
+}
+
 .buttons {
     display: flex;
     justify-content: space-between;

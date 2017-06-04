@@ -34,8 +34,7 @@
          * Инициализация и отрисовка пузырьков
          */
         this.init = function () {
-            var number = null,
-                bubble = null,
+            var bubble = null,
                 elementsCount = $('#elementsCount').val(),
                 array = [];
             try {
@@ -197,6 +196,7 @@
          */
         function _getArray( amount ) {
             var array = [];
+
             if ($('#generate-array').is(':checked')){
                 for (var i = 0; i < amount; i++) {
                     array.push(_getRandomNumber(0, 999));

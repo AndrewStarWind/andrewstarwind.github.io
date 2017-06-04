@@ -4,7 +4,7 @@
      *Класс отвечает за отображение и хранение информации о пузырьке
      * @param content {int} - содержимое
      * @param position {int} - номер пузырька
-     * @param parent {Object} - ссылка на контейнер
+     * @param parent {jQuery} - ссылка на контейнер
      */
     function Bubble( content, position, parent ) {
 
@@ -20,7 +20,7 @@
 
     /**
      * Главный класс
-     * @param element {jQuery} - ссылка на контейнер
+     * @param element {jQuery} - ссылка на элемент
      */
     function Sort( element ) {
         var bubbles = [],

@@ -19,8 +19,25 @@
                 <ol>
                     <li>Нажмите кнопку "Cгенерировать массив"</li>
                     <li>Если массив подходит, можно приступать к сортировке и нажимать кнопку "Cортировать массив" или сгенерировать его повторно</li>
+                    <li>Кнопки "Старт" и "Пауза", сответственно останавливают и продолжают процесс сортировки</li>
                     <li>После сортировки можно повторить</li>
                 </ol>
+            </div>
+            <div class="count">
+                <div class="form-group">
+                    <label for="elementsCount">Количество элементов массива: </label>
+                    <select id="elementsCount">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10" selected>10</option>
+                    </select>
+                </div>
             </div>
             <div class="buttons">
                 <div class="buttons__generate">
@@ -30,10 +47,22 @@
                     Сортировать массив
                 </div>
             </div>
+            <div class="buttons">
+                <div class="buttons__pause disabled">
+                    Пауза
+                </div>
+                <div class="buttons__resume disabled">
+                    Продолжить
+                </div>
+                <div class="buttons__stop disabled">
+                    Отменить сортировку
+                </div>
+            </div>
             <div class="bubbles" style="display: none;">
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/vendor/jquery.pause.min.js"></script>
+        <script src="js/main.es5.js"></script>
     </body>
 </html>

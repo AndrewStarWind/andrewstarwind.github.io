@@ -1,6 +1,7 @@
 'use strict';
 
 (function(){
+
     /**
      * Класс отвечает за отображение и хранение информации о пузырьке
      */
@@ -35,6 +36,7 @@
          */
         constructor(element) {
             this.element = element;
+            this.currentBubbles = [];
         }
         /**
          * Инициализация и отрисовка пузырьков
@@ -43,10 +45,10 @@
             this.element.empty().hide();
             $('.old-bubbles-js').remove();
             this.bubbles = [];
-            for (let i = 0; i < 10; i++) {
+            this.elementsCount = $('#elementsCount').val();
+            for (let i = 0; i < this.elementsCount; i++) {
                 let number = this._getRandomNumber( 0, 999 ),
                     bubble = new Bubble( number, i, this.element );
-
                 this.bubbles.push( bubble );
             }
             this.element.prepend( '<p>Сгенерированный массив:</p>' );
@@ -59,6 +61,7 @@
          * выполняющих анимацию
          */
         sort() {
+            this.isStop = false;
             this._copyContainer().then( () => {
                 this.element.find( 'p' ).text( 'Идёт сортировка...' );
                 let len = this.bubbles.length,
@@ -76,15 +79,31 @@
                             this.bubbles[j + 1] = temp;
                             isSwap = true
                         }
-                       promise =  promise.then( () => { return this._animateBubbles( $bubble1, $bubble2, isSwap ) } );
+                        promise =  promise.then( () => { return this._animateBubbles( $bubble1, $bubble2, isSwap ) } );
                     }
                 }
                 promise.then( () => {
                     $( '.buttons__generate' ).removeClass( 'disabled' );
                     this.element.find( 'p' ).text( 'Отсортированный массив:' );
-                } )
+                } ).catch(console.error);
             } );
 
+        }
+
+        pauseAnimations() {
+            this.currentBubbles[0].pause();
+            this.currentBubbles[1].pause();
+        }
+
+        resumeAnimations() {
+            this.currentBubbles[0].resume();
+            this.currentBubbles[1].resume();
+        }
+
+        stopAnimations () {
+            this.isStop = true;
+            $('.old-bubbles-js').remove();
+            $('.bubbles').html('');
         }
 
         /**
@@ -96,25 +115,32 @@
          * @private
          */
         _animateBubbles($bubble1, $bubble2, isSwap) {
-            let bubble1LeftOffset = $bubble1.css( 'left' ),
-                bubble2LeftOffset = $bubble2.css( 'left' );
+            return new Promise((resolve, reject) => {
+                if (this.isStop) {
+                    resolve();
+                    return;
+                }
+                let bubble1LeftOffset = $bubble1.css( 'left' ),
+                    bubble2LeftOffset = $bubble2.css( 'left' );
 
-            $bubble1.addClass( 'bubble-current' );
-            $bubble2.addClass( 'bubble-current' );
+                $bubble1.addClass( 'bubble-current' );
+                $bubble2.addClass( 'bubble-current' );
 
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    if (isSwap){
-                        $bubble1.animate( {top: '-10px'}, 150, function() {
-                            $bubble1.animate( {left: bubble2LeftOffset}, 150, function() {
-                                $bubble2.animate ( {top: '40px'}, 150 );
-                                $bubble1.animate( {top: '40px'}, 150, function() {
-                                    $bubble1.removeClass( 'bubble-current' );
-                                    $bubble2.removeClass( 'bubble-current' );
-                                    resolve();
-                                } )
-                            } );
-                            $bubble2.animate( {left: bubble1LeftOffset}, 150 );
+                this.currentBubbles[0] = $bubble1;
+                this.currentBubbles[1] = $bubble2;
+
+                $bubble1.animate({top: '40px'}, 700, () => {
+                    if (isSwap) {
+                        $bubble1.animate( {top: '-10px'}, 150, () => {
+                                $bubble1.animate( {left: bubble2LeftOffset}, 150, () => {
+                                        $bubble2.animate ( {top: '40px'}, 150 );
+                                        $bubble1.animate( {top: '40px'}, 150, () => {
+                                            $bubble1.removeClass( 'bubble-current' );
+                                            $bubble2.removeClass( 'bubble-current' );
+                                            resolve();
+                                        } )
+                                } );
+                                $bubble2.animate( {left: bubble1LeftOffset}, 150 );
                         } );
                         $bubble2.animate( {top: '90px'}, 150 )
                     } else {
@@ -122,7 +148,7 @@
                         $bubble2.removeClass( 'bubble-current' );
                         resolve();
                     }
-                }, 700);
+                });
             })
 
         }
@@ -138,7 +164,7 @@
             return Math.floor( Math.random() * (max - min) + min );
         }
 
-        _copyContainer(){
+        _copyContainer() {
             let originalBubbles = this.element.clone();
 
             originalBubbles.hide()
@@ -172,9 +198,36 @@
             if (!$(this).hasClass( 'disabled' )) {
                 $(this).addClass( 'disabled' );
                 $( '.buttons__generate' ).addClass( 'disabled' );
+                $( '.buttons__pause' ).removeClass( 'disabled' );
                 sort.sort();
             }
         });
-    });
 
+        $( '.buttons__resume' ).click(function () {
+            if (!$(this).hasClass( 'disabled' )) {
+                $(this).addClass( 'disabled' );
+                $( '.buttons__pause' ).removeClass( 'disabled' );
+                $( '.buttons__stop' ).removeClass( 'disabled' );
+                sort.resumeAnimations()
+            }
+        });
+
+        $( '.buttons__pause' ).click(function () {
+            if (!$(this).hasClass( 'disabled' )) {
+                $(this).addClass( 'disabled' );
+                $( '.buttons__resume' ).removeClass( 'disabled' );
+                $( '.buttons__stop' ).addClass( 'disabled' );
+                sort.pauseAnimations();
+            }
+        });
+
+        $( '.buttons__stop' ).click(function () {
+            if (!$(this).hasClass( 'disabled' )) {
+                $(this).addClass( 'disabled' );
+                $( '.buttons__resume' ).addClass( 'disabled' );
+                $( '.buttons__stop' ).addClass( 'disabled' );
+                sort.stopAnimations();
+            }
+        });
+    });
 })();

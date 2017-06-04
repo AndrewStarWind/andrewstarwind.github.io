@@ -2,19 +2,24 @@
     width: 800px;
     margin: 0 auto;
 }
-
 .instructions h1 {
     text-align: center;
 }
-
 .buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     width: 700px;
-    margin: 20px auto 50px auto;
+    margin: 20px auto 20px auto;
 }
 .buttons__generate,
-.buttons__sort{
+.buttons__sort,
+.buttons__pause,
+.buttons__resume,
+.buttons__stop {
     padding: 15px 0;
     width: 300px;
     background-color: #45b445;
@@ -25,12 +30,26 @@
     font-weight: 200;
     font-family: 'Trebuchet MS', sans-serif;
     cursor: pointer;
+    -moz-user-select: none;
     user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
 }
-.buttons__sort {
+.buttons__sort,
+.buttons__stop {
     background-color: rgba(255, 85, 78, 1);
+}
+
+.buttons__pause {
+    background-color: #ffd824;
+}
+
+
+.buttons__pause,
+.buttons__resume,
+.buttons__stop {
+    width: 200px;
+    font-size: 1em;
 }
 .bubbles {
     position: relative;
@@ -42,7 +61,6 @@
     margin:0;
     font-size: 1.3em;
 }
-
 .bubble {
     position: absolute;
     top: 40px;
@@ -61,14 +79,17 @@
     border: none;
     border-radius: 50%;
     background: #5a99d4;
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 119, 127, .5);
     box-shadow: 0 0 0 0 rgba(255, 119, 127, .5);
     cursor: default;
+    -moz-user-select: none;
     user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
 
 }
 .bubble-current {
+    -webkit-animation: pulse 1.5s infinite;
     animation: pulse 1.5s infinite;
 }
 .disabled {
@@ -81,10 +102,12 @@
     }
     70% {
     @include transform(scale(1));
+        -webkit-box-shadow: 0 0 0 25px rgba(255, 119, 127, 0);
         box-shadow: 0 0 0 25px rgba(255, 119, 127, 0);
     }
     100% {
     @include transform(scale(.9));
+        -webkit-box-shadow: 0 0 0 0 rgba(255, 119, 127, 0);
         box-shadow: 0 0 0 0 rgba(255, 119, 127, 0);
     }
 }

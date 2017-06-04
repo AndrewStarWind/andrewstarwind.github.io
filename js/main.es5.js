@@ -305,7 +305,7 @@
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
                 $('.buttons__resume').addClass('disabled');
-                $('.buttons__stop').addClass('disabled');
+                $('.buttons__pause').addClass('disabled');
                 sort.stopAnimations();
             }
         });

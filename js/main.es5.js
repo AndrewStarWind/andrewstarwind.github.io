@@ -36,18 +36,25 @@
         this.init = function () {
             var number = null,
                 bubble = null,
-                elementsCount = $('#elementsCount').val();
-
-            element.empty().hide();
-            $('.old-bubbles-js').remove();
-            bubbles = [];
-            for (var i = 0; i < elementsCount; i++) {
-                number = _getRandomNumber(0, 999);
-                bubble = new Bubble(number, i, element);
-                bubbles.push(bubble);
+                elementsCount = $('#elementsCount').val(),
+                array = [];
+            try {
+                array = _getArray(elementsCount);
+                element.empty().hide();
+                $('.old-bubbles-js').remove();
+                bubbles = [];
+                for (var i = 0; i < array.length; i++) {
+                    bubble = new Bubble(array[i], i, element);
+                    bubbles.push(bubble);
+                }
+                element.prepend('<p>Сгенерированный массив:</p>');
+                element.fadeIn();
             }
-            element.prepend('<p>Сгенерированный массив:</p>');
-            element.fadeIn();
+            catch (err) {
+                alert(err);
+                $('.buttons__sort').addClass('disabled');
+            }
+
         };
 
         /**
@@ -167,6 +174,43 @@
             });
         }
 
+        function _getArray( amount ) {
+            var array = [];
+            if ($('#generate-array').is(':checked')){
+                for (var i = 0; i < amount; i++) {
+                    array.push(_getRandomNumber(0, 999));
+                }
+            } else {
+                array = _getArrayFromInput();
+            }
+
+            return array;
+        }
+
+        function _getArrayFromInput(){
+            var inputValue = $('#array').val(),
+                array = [],
+                isError = true,
+                number = 0;
+
+            array = inputValue.split(',');
+
+            if (array.length < 2) {
+                throw 'Слишком короткий массив';
+            }
+
+            for (var i = 0; i < array.length; i++) {
+                number = parseInt(array[i]);
+                if (number !== Number.NaN && number > -1000 && number < 1000){
+                    array[i] = parseInt(array[i])
+                } else {
+                    throw 'Неверный формат'
+                }
+            }
+
+            return array;
+        }
+
         /**
          * Метод генерации числа
          * @param min - минимальное значение
@@ -185,8 +229,16 @@
      *
      */
     $(function () {
-        let sort = new Sort($('.bubbles'));
+        var sort = new Sort($('.bubbles'));
+        _initHandlers(sort);
+    });
 
+    /**
+     * Функция вешает обрабочики на события
+     * @param sort - ссылка на объект класса Sort
+     * @private
+     */
+    function _initHandlers(sort) {
         $('.buttons__generate').click(function () {
             if (!$(this).hasClass('disabled')) {
                 $('.buttons__sort').removeClass('disabled');
@@ -230,5 +282,15 @@
                 sort.stopAnimations();
             }
         });
-    });
+
+        $('.instructions h4').click(function () {
+            $(this).next().slideToggle();
+            $(this).find('span')
+                .html($(this).find('span').html() == '+' ? '-' : '+')
+        });
+
+        $('#generate-array').change(function() {
+            $('.form-group--array').slideToggle(!this.checked)
+        })
+    }
 })();

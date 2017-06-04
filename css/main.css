@@ -5,6 +5,42 @@
 .instructions h1 {
     text-align: center;
 }
+.instructions h4 {
+    cursor: pointer;
+    -moz-user-select: none;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+.instructions h4 span {
+    display: inline-block;
+    width: 1.3rem;
+}
+
+.instructions ol {
+    display: none;
+}
+
+.form-group {
+    padding: 5px 0;
+}
+
+.form-group label {
+    cursor: pointer;
+    -moz-user-select: none;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.form-group input[type="text"] {
+    width: 300px;
+}
+
+.form-group--array {
+    display: none;
+}
+
 .buttons {
     display: -webkit-box;
     display: -ms-flexbox;

@@ -215,11 +215,8 @@
          */
         function _getArrayFromInput(){
             var inputValue = $('#array').val(),
-                array = [],
-                isError = true,
+                array = inputValue.split(','),
                 number = 0;
-
-            array = inputValue.split(',');
 
             if (array.length < 2) {
                 throw 'Слишком короткий массив';

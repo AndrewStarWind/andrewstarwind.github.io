@@ -71,7 +71,7 @@
                 isSwap = false;
 
             isStop = false;
-
+            animations = [];
             originalBubbles.hide()
                 .addClass('old-bubbles-js');
             element.after(originalBubbles);
@@ -98,30 +98,46 @@
                         });
                     }
                 }
+                console.log(animations);
                 _animateBubbles(animations, 0)
             });
 
         };
 
+        /**
+         * Функция паузы анимации
+         */
         this.pauseAnimations = function () {
             currentBubbles[0].pause();
             currentBubbles[1].pause();
         };
 
+        /**
+         * Функция продолжения анимации
+         */
         this.resumeAnimations = function () {
             currentBubbles[0].resume();
             currentBubbles[1].resume();
         };
 
+        /**
+         * Функция отмены анимации
+         */
         this.stopAnimations = function () {
             isStop = true;
             $('.old-bubbles-js').remove();
             $('.bubbles').html('');
         };
 
+        /**
+         * Функция вызывается по окончанию либо по прерыванию сортировки
+         * @private
+         */
         function _afterSort() {
             $('.buttons__generate').removeClass('disabled');
             element.find('p').text('Отсортированный массив:');
+            animations = [];
+            isStop = false;
         }
 
         /**
@@ -142,13 +158,12 @@
 
             currentBubbles[0] = $bubble1;
             currentBubbles[1] = $bubble2;
-
             $bubble1.animate({top: '40px'}, 700, function () {
                 if (isSwap) {
                     $bubble1.animate({top: '-10px'}, 150, function () {
                         $bubble1.animate({left: bubble2LeftOffset}, 150, function () {
                             $bubble2.animate({top: '40px'}, 150);
-                            $bubble1.animate({top: '40px'}, 150, () => {
+                            $bubble1.animate({top: '40px'}, 150, function(){
                                 $bubble1.removeClass('bubble-current');
                                 $bubble2.removeClass('bubble-current');
 
@@ -174,6 +189,12 @@
             });
         }
 
+        /**
+         * Функция генерирует массив, либо считывает введенный
+         * @param amount - количество элементов
+         * @returns {Array} - ввденный или сгенерированный массив
+         * @private
+         */
         function _getArray( amount ) {
             var array = [];
             if ($('#generate-array').is(':checked')){
@@ -187,6 +208,11 @@
             return array;
         }
 
+        /**
+         * Функция считывает массив из инпута
+         * @returns {Array}
+         * @private
+         */
         function _getArrayFromInput(){
             var inputValue = $('#array').val(),
                 array = [],
@@ -197,6 +223,10 @@
 
             if (array.length < 2) {
                 throw 'Слишком короткий массив';
+            }
+
+            if (array.length > 10) {
+                throw 'Слишком длинный массив';
             }
 
             for (var i = 0; i < array.length; i++) {

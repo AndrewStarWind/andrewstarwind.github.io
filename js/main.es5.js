@@ -135,6 +135,9 @@
         function _afterSort() {
             $('.buttons__generate').removeClass('disabled');
             element.find('p').text('Отсортированный массив:');
+            $('.buttons__pause').addClass('disabled');
+            $('.buttons__stop').addClass('disabled');
+            $('.buttons__pause').addClass('disabled');
             animations = [];
             isStop = false;
         }

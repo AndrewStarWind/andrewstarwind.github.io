@@ -304,7 +304,7 @@
             for (var i = 0; i < array.length; i++) {
                 number = Number(array[i]); // вернёт число, если введено число, в противном случае NaN
                 if (!isNaN(number) && _isInRange(number)){
-                    array[i] = parseInt(array[i])
+                    array[i] = number;
                 } else {
                     throw 'Одно или несколько из введеных чисел не являются числами,' +
                     ' либо не входят в область допустимых значений'

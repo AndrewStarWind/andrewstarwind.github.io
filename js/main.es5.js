@@ -1,5 +1,4 @@
 (function () {
-
     /**
      * Класс отвечает за отображение и хранение информации о пузырьке
      * @param content {int} - содержимое
@@ -12,7 +11,8 @@
             class: 'bubble',
             text: content
         }).css({
-            'left': (25 + 80 * position) + 'px'
+            'top' : 130 + Math.floor(position / 10) * 70 + 'px',
+            'left': (25 + 80 * (position % 10)) + 'px'
         }).appendTo(parent)[0];
 
         this.value = content;
@@ -27,7 +27,8 @@
             animations = [],
             isStop = false,
             currentBubbles = [],
-            MAX_NUMBER = 999999;
+            MAX_NUMBER = 999999,
+            animationSpeed = 1;
 
         this.element = element;
 
@@ -36,11 +37,15 @@
          */
         this.init = function () {
             var bubble = null,
-                elementsCount = $('#elementsCount').val(),
+                elementsCount = $('#elements-count').val(),
                 array = [];
             try {
                 element.empty().hide();
                 $('.old-bubbles-js').remove();
+
+                if (elementsCount < 2 || elementsCount > 500) {
+                    throw 'Количество элементов массива должно быть не меньше 2 и не больше 500 ';
+                }
 
                 if ($('#generate-array').is(':checked')) {
                     array = _generateArray(elementsCount);
@@ -48,6 +53,8 @@
                     array = _getArrayFromInput();
                 }
 
+                element.css('height', 140 + Math.floor((array.length - 1) / 10) * 80 + 'px');
+                animationSpeed = 300;
                 bubbles = [];
                 for (var i = 0; i < array.length; i++) {
                     bubble = new Bubble(array[i], i, element);
@@ -128,11 +135,24 @@
          * Функция отмены анимации
          */
         this.stopAnimations = function () {
+            animationSpeed = 0;
             currentBubbles[0].resume();
             currentBubbles[1].resume();
             isStop = true;
             $('.old-bubbles-js').remove();
             $('.bubbles').html('');
+        };
+
+        this.increaseAnimationSpeed = function(  ) {
+            if (animationSpeed > 150) animationSpeed = animationSpeed /  2;
+
+        };
+
+        this.decreaseAnimationSpeed = function(  ) {
+            if (animationSpeed < 1200){
+                animationSpeed = animationSpeed *  2;
+            }
+
         };
 
         /**
@@ -156,46 +176,64 @@
          * @private
          */
         function _animateBubbles( animations, index ) {
+            if (isStop) {
+                _afterSort();
+                return;
+            }
             var $bubble1 = animations[index].bubble1,
                 $bubble2 = animations[index].bubble2,
                 isSwap = animations[index].isSwap,
                 bubble1LeftOffset = $bubble1.css('left'),
-                bubble2LeftOffset = $bubble2.css('left');
+                bubble2LeftOffset = $bubble2.css('left'),
+                bubble1TopOffset = $bubble1.css('top'),
+                bubble2TopOffset = $bubble2.css('top');
 
-            $bubble1.addClass('bubble-current');
-            $bubble2.addClass('bubble-current');
+            $bubble1.addClass('bubble-current--red');
+            $bubble2.addClass('bubble-current--red');
 
             currentBubbles[0] = $bubble1;
             currentBubbles[1] = $bubble2;
-            $bubble1.animate({top: '40px'}, 700, function () {
-                if (isSwap) {
-                    $bubble1.animate({top: '-10px'}, 150, function () {
-                        $bubble1.animate({left: bubble2LeftOffset}, 150, function () {
-                            $bubble2.animate({top: '40px'}, 150);
-                            $bubble1.animate({top: '40px'}, 150, function(){
-                                $bubble1.removeClass('bubble-current');
-                                $bubble2.removeClass('bubble-current');
-
-                                if (!isStop && animations[index + 1]) {
-                                    _animateBubbles(animations, index + 1)
-                                } else {
-                                    _afterSort();
-                                }
-                            })
-                        });
-                        $bubble2.animate({left: bubble1LeftOffset}, 150);
-                    });
-                    $bubble2.animate({top: '90px'}, 150)
-                } else {
-                    $bubble1.removeClass('bubble-current');
-                    $bubble2.removeClass('bubble-current');
-                    if (!isStop && animations[index + 1]) {
-                        _animateBubbles(animations, index + 1)
-                    } else {
-                        _afterSort();
-                    }
+            $bubble2.animate({top: '40px', left: '415px'}, animationSpeed);
+            $bubble1.animate({top: '40px', left: '325px'}, animationSpeed, function () {
+                if (!isSwap){
+                    $bubble1.removeClass('bubble-current--red').addClass('bubble-current--green');
+                    $bubble2.removeClass('bubble-current--red').addClass('bubble-current--green');
                 }
-            });
+                $bubble2.animate({top: '40px'}, animationSpeed * 2, function (  ) {
+                    if (isSwap) {
+                        $bubble1.animate({left: '415px'}, animationSpeed, function () {
+                            $bubble1.removeClass('bubble-current--red').addClass('bubble-current--green');
+                            $bubble2.removeClass('bubble-current--red').addClass('bubble-current--green');
+                            $bubble2.animate({top: '40px'}, animationSpeed * 2, function () {
+                                $bubble2.animate({top: bubble1TopOffset, left: bubble1LeftOffset}, animationSpeed);
+                                $bubble1.animate({top: bubble2TopOffset, left: bubble2LeftOffset}, animationSpeed, function() {
+                                    $bubble1.css({top: bubble2TopOffset, left: bubble2LeftOffset});
+                                    $bubble2.css({top: bubble1TopOffset, left: bubble1LeftOffset});
+                                    $bubble1.removeClass('bubble-current--green');
+                                    $bubble2.removeClass('bubble-current--green');
+                                    if (animations[index + 1]) {
+                                        _animateBubbles(animations, index + 1)
+                                    }
+                                });
+                            });
+                        });
+                        $bubble2.animate({left: '325px'}, animationSpeed);
+                    } else {
+                        $bubble2.animate({top: bubble2TopOffset, left: bubble2LeftOffset}, animationSpeed);
+                        $bubble1.animate({top: bubble1TopOffset, left: bubble1LeftOffset}, animationSpeed, function() {
+                            $bubble1.removeClass('bubble-current--green');
+                            $bubble2.removeClass('bubble-current--green');
+                            $bubble2.css({top: bubble2TopOffset, left: bubble2LeftOffset});
+                            $bubble1.css({top: bubble1TopOffset, left: bubble1LeftOffset});
+                            if (animations[index + 1]) {
+                                _animateBubbles(animations, index + 1)
+                            }
+                        });
+
+                    }
+                });
+                });
+
         }
 
         /**
@@ -275,6 +313,8 @@
         function _isInRange( amount ) {
             return !(amount > MAX_NUMBER || amount < -MAX_NUMBER)
         }
+
+
     }
 
     /**
@@ -306,6 +346,8 @@
                 $('.buttons__generate').addClass('disabled');
                 $('.buttons__pause').removeClass('disabled');
                 $('.buttons__stop').removeClass('disabled');
+                $('.buttons__increase-speed').removeClass('disabled');
+                $('.buttons__decrease-speed').removeClass('disabled');
                 sort.sort();
             }
         });
@@ -332,7 +374,21 @@
                 $(this).addClass('disabled');
                 $('.buttons__resume').addClass('disabled');
                 $('.buttons__pause').addClass('disabled');
+                $('.buttons__increase-speed').addClass('disabled');
+                $('.buttons__decrease-speed').addClass('disabled');
                 sort.stopAnimations();
+            }
+        });
+
+        $('.buttons__increase-speed').click(function (  ) {
+            if (!$(this).hasClass('disabled')) {
+                sort.increaseAnimationSpeed();
+            }
+        });
+
+        $('.buttons__decrease-speed').click(function (  ) {
+            if (!$(this).hasClass('disabled')) {
+                sort.decreaseAnimationSpeed();
             }
         });
 

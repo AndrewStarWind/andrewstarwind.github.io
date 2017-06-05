@@ -18,14 +18,15 @@
                 <h4><span>+</span>Как пользоваться сайтом?</h4>
                 <ol>
                     <li>
-                        Выберите количество элементов массива. По умолчанию - 10.
+                        Выберите количество элементов массива. По умолчанию - 20.
+                        Минимальное значение - 2. Максимально - 500
                     </li>
                     <li>Нажмите кнопку "Создать массив". Если массив подходит, можно приступать к сортировке и нажимать
                         кнопку "Сортировать массив" или сгенерировать его повторно.</li>
                     <li>Так же можно ввести массив руками через запятую в формате 111, 111.
                         Допустимые для ввода числа находятся в диапазоне от -999999 до 999999.
                         Для этого нужно убрать чекбокс "Автоматическая генерация массива"
-                        Максимальное количество элементов - 10.</li>
+                        Максимальное количество элементов - 500.</li>
                     <li>Кнопки "Старт", "Продолжить" и "Отменить сортировку", сответственно приостанавливают, продолжают
                         и отменяют процесс сортировки.</li>
                     <li>После сортировки можно создать новый массив и повторить сортировку.</li>
@@ -33,18 +34,8 @@
             </div>
             <div class="count">
                 <div class="form-group">
-                    <label for="elementsCount">Количество элементов массива: </label>
-                    <select id="elementsCount">
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10" selected>10</option>
-                    </select>
+                    <label for="elements-count">Количество элементов массива: </label>
+                    <input id="elements-count" type="number" min="2" max="500" value="20">
                 </div>
                 <div class="form-group">
                     <input id="generate-array" type="checkbox" checked>
@@ -63,6 +54,14 @@
                 </div>
                 <div class="buttons__sort disabled">
                     Сортировать массив
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="buttons__decrease-speed disabled">
+                    Скорость анимации -
+                </div>
+                <div class="buttons__increase-speed disabled">
+                    Скорость анимации +
                 </div>
             </div>
             <div class="buttons">

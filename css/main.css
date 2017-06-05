@@ -55,7 +55,9 @@
 .buttons__sort,
 .buttons__pause,
 .buttons__resume,
-.buttons__stop {
+.buttons__stop,
+.buttons__increase-speed,
+.buttons__decrease-speed{
     padding: 15px 0;
     width: 300px;
     background-color: #45b445;
@@ -72,14 +74,14 @@
     -webkit-user-select: none;
 }
 .buttons__sort,
-.buttons__stop {
+.buttons__stop,
+.buttons__decrease-speed {
     background-color: rgba(255, 85, 78, 1);
 }
 
 .buttons__pause {
     background-color: #ffd824;
 }
-
 
 .buttons__pause,
 .buttons__resume,
@@ -99,8 +101,6 @@
 }
 .bubble {
     position: absolute;
-    top: 40px;
-    left: 0;
     display: block;
     width: 50px;
     height: 50px;
@@ -114,7 +114,6 @@
     color: white;
     border: none;
     border-collapse: collapse;
-
     border-radius: 50%;
     background: #5a99d4;
     -webkit-box-shadow: 0 0 0 0 rgba(255, 119, 127, .5);
@@ -126,15 +125,23 @@
     -webkit-user-select: none;
 
 }
-.bubble-current {
-    -webkit-animation: pulse 1.5s infinite;
-    animation: pulse 1.5s infinite;
+.bubble-current--red {
+    -webkit-animation: pulse--red 1.5s infinite;
+    animation: pulse--red 1.5s infinite;
 }
+
+.bubble-current--green {
+    -webkit-box-shadow: 0 0 0 0 rgba(98, 255, 130, .5);
+    box-shadow: 0 0 0 0 rgba(98, 255, 130, .5);
+    -webkit-animation: pulse--green 1.5s infinite;
+    animation: pulse--green 1.5s infinite;
+}
+
 .disabled {
     cursor: not-allowed;
     opacity: 0.7;
 }
-@keyframes pulse {
+@keyframes pulse--red {
     0% {
     @include transform(scale(.9));
     }
@@ -147,5 +154,21 @@
     @include transform(scale(.9));
         -webkit-box-shadow: 0 0 0 0 rgba(255, 119, 127, 0);
         box-shadow: 0 0 0 0 rgba(255, 119, 127, 0);
+    }
+}
+
+@keyframes pulse--green {
+    0% {
+    @include transform(scale(.9));
+    }
+    70% {
+    @include transform(scale(1));
+        -webkit-box-shadow: 0 0 0 25px rgba(98, 255, 130, 0);
+        box-shadow: 0 0 0 25px rgba(98, 255, 130, 0);
+    }
+    100% {
+    @include transform(scale(.9));
+        -webkit-box-shadow: 0 0 0 0 rgba(98, 255, 130, 0);
+        box-shadow: 0 0 0 0 rgba(98, 255, 130, 0);
     }
 }

@@ -125,6 +125,8 @@
          * Функция отмены анимации
          */
         this.stopAnimations = function () {
+            currentBubbles[0].resume();
+            currentBubbles[1].resume();
             isStop = true;
             $('.old-bubbles-js').remove();
             $('.bubbles').html('');
@@ -301,7 +303,6 @@
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
                 $('.buttons__resume').removeClass('disabled');
-                $('.buttons__stop').addClass('disabled');
                 sort.pauseAnimations();
             }
         });

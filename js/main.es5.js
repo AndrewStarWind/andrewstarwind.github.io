@@ -147,12 +147,23 @@
          * Методы ускорения и замедления анимации
          */
         this.increaseAnimationSpeed = function(  ) {
-            if (animationSpeed > 150) animationSpeed = animationSpeed /  2;
+            $('.buttons__decrease-speed').removeClass('disabled');
+            if (animationSpeed > 150) {
+                animationSpeed = animationSpeed /  2;
+            } else {
+                $('.buttons__increase-speed').addClass('disabled');
+            }
+
 
         };
 
         this.decreaseAnimationSpeed = function(  ) {
-            if (animationSpeed < 1200) animationSpeed = animationSpeed *  2;
+            $('.buttons__increase-speed').removeClass('disabled');
+            if (animationSpeed < 1200) {
+                animationSpeed = animationSpeed *  2;
+            } else {
+                $('.buttons__decrease-speed').addClass('disabled');
+            }
 
         };
 

@@ -277,7 +277,7 @@
                 throw 'Слишком короткий массив';
             }
 
-            if (array.length > 10) {
+            if (array.length > 500) {
                 throw 'Слишком длинный массив';
             }
 

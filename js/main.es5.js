@@ -55,7 +55,6 @@
                 alert(err);
                 $('.buttons__sort').addClass('disabled');
             }
-
         };
 
         /**
@@ -99,7 +98,6 @@
                         });
                     }
                 }
-                console.log(animations);
                 _animateBubbles(animations, 0)
             });
 

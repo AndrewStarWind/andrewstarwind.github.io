@@ -265,7 +265,8 @@
                 rangeBeg = parseInt($('#range-start').val()),
                 rangeEnd = parseInt($('#range-end').val());
 
-            if (rangeBeg == Number.NaN || rangeEnd == Number.NaN || rangeBeg >= rangeEnd){
+
+            if (isNaN(rangeBeg) || isNaN(rangeEnd) || rangeBeg >= rangeEnd){
                 throw 'Неверный диапазон'
             }
 

@@ -1,3 +1,24 @@
+body {
+    position: relative;
+}
+
+#repo-link {
+    position: absolute;
+    display: block;
+    right:0;
+    top: -25px;
+    width: 70px;
+    height: 70px;
+    opacity: 0.5;
+    background-image: url(../img/github.png);
+    background-size: cover;
+    transition: all 0.15s linear;
+}
+
+#repo-link:hover {
+    opacity: 1;
+}
+
 .center {
     width: 800px;
     margin: 0 auto;
@@ -19,6 +40,10 @@
 
 .instructions ol {
     display: none;
+}
+
+.instructions a {
+    color: #147f77;
 }
 
 .form-group {

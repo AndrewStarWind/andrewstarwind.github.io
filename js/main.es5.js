@@ -38,9 +38,11 @@
                 elementsCount = $('#elementsCount').val(),
                 array = [];
             try {
-                array = _getArray(elementsCount);
                 element.empty().hide();
                 $('.old-bubbles-js').remove();
+
+                array = _getArray(elementsCount);
+
                 bubbles = [];
                 for (var i = 0; i < array.length; i++) {
                     bubble = new Bubble(array[i], i, element);

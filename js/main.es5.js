@@ -28,6 +28,8 @@
             isStop = false,
             currentBubbles = [],
             MAX_NUMBER = 999999,
+            MIN_ARRAY_LENGTH = 2,
+            MAX_ARRAY_LENGTH = 500,
             animationSpeed = 1;
 
         this.element = element;
@@ -43,7 +45,7 @@
                 element.empty().hide();
                 $('.old-bubbles').remove();
 
-                if (elementsCount < 2 || elementsCount > 500) {
+                if (elementsCount < MIN_ARRAY_LENGTH || elementsCount > MAX_ARRAY_LENGTH) {
                     throw 'Количество элементов массива должно быть не меньше 2 и не больше 500 ';
                 }
 
@@ -291,11 +293,11 @@
                 array = inputValue.split(','),
                 number = 0;
 
-            if (array.length < 2) {
+            if (array.length < MIN_ARRAY_LENGTH) {
                 throw 'Слишком короткий массив';
             }
 
-            if (array.length > 500) {
+            if (array.length > MAX_ARRAY_LENGTH) {
                 throw 'Слишком длинный массив';
             }
 

@@ -143,15 +143,16 @@
             $('.bubbles').html('');
         };
 
+        /**
+         * Методы ускорения и замедления анимации
+         */
         this.increaseAnimationSpeed = function(  ) {
             if (animationSpeed > 150) animationSpeed = animationSpeed /  2;
 
         };
 
         this.decreaseAnimationSpeed = function(  ) {
-            if (animationSpeed < 1200){
-                animationSpeed = animationSpeed *  2;
-            }
+            if (animationSpeed < 1200) animationSpeed = animationSpeed *  2;
 
         };
 

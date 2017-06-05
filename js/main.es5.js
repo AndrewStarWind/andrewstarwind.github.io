@@ -303,7 +303,7 @@
 
             for (var i = 0; i < array.length; i++) {
                 number = parseInt(array[i]);
-                if (number !== Number.NaN && _isInRange(number)){
+                if (!isNaN(number) && _isInRange(number)){
                     array[i] = parseInt(array[i])
                 } else {
                     throw 'Одно или несколько из введеных чисел не являются числами,' +

@@ -26,7 +26,8 @@
         var bubbles = [],
             animations = [],
             isStop = false,
-            currentBubbles = [];
+            currentBubbles = [],
+            MAX_NUMBER = 999999;
 
         this.element = element;
 
@@ -41,7 +42,11 @@
                 element.empty().hide();
                 $('.old-bubbles-js').remove();
 
-                array = _getArray(elementsCount);
+                if ($('#generate-array').is(':checked')) {
+                    array = _generateArray(elementsCount);
+                } else {
+                    array = _getArrayFromInput();
+                }
 
                 bubbles = [];
                 for (var i = 0; i < array.length; i++) {
@@ -199,15 +204,21 @@
          * @returns {Array} - ввденный или сгенерированный массив
          * @private
          */
-        function _getArray( amount ) {
-            var array = [];
+        function _generateArray( amount ) {
+            var array = [],
+                rangeBeg = parseInt($('#range-start').val()),
+                rangeEnd = parseInt($('#range-end').val());
 
-            if ($('#generate-array').is(':checked')){
-                for (var i = 0; i < amount; i++) {
-                    array.push(_getRandomNumber(0, 999));
-                }
-            } else {
-                array = _getArrayFromInput();
+            if (rangeBeg === Number.NaN || rangeEnd === Number.NaN || rangeBeg >= rangeEnd){
+                throw 'Неверный диапазон'
+            }
+
+            if (!(_isInRange(rangeBeg) && _isInRange(rangeEnd))){
+                throw 'Введенные числа превышают максимальное значение';
+            }
+
+            for (var i = 0; i < amount; i++) {
+                array.push(_getRandomNumber(rangeBeg, rangeEnd));
             }
 
             return array;
@@ -233,10 +244,11 @@
 
             for (var i = 0; i < array.length; i++) {
                 number = parseInt(array[i]);
-                if (number !== Number.NaN && number > -1000 && number < 1000){
+                if (number !== Number.NaN && _isInRange(number)){
                     array[i] = parseInt(array[i])
                 } else {
-                    throw 'Неверный формат'
+                    throw 'Одно или несколько из введеных чисел не являются числами,' +
+                    ' либо не входят в область допустимых значений'
                 }
             }
 
@@ -251,7 +263,17 @@
          * @private
          */
         function _getRandomNumber( min, max ) {
-            return Math.floor(Math.random() * (max - min) + min);
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        /**
+         * Функция проверяет, входит ли число в допустимый дипазон
+         * @param amount - число
+         * @returns {boolean} - результат проверки
+         * @private
+         */
+        function _isInRange( amount ) {
+            return !(amount > MAX_NUMBER || amount < -MAX_NUMBER)
         }
     }
 
@@ -322,6 +344,6 @@
 
         $('#generate-array').change(function() {
             $('.form-group--array').slideToggle(!this.checked)
-        })
+        });
     }
 })();

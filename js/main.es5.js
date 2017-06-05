@@ -41,7 +41,7 @@
                 array = [];
             try {
                 element.empty().hide();
-                $('.old-bubbles-js').remove();
+                $('.old-bubbles').remove();
 
                 if (elementsCount < 2 || elementsCount > 500) {
                     throw 'Количество элементов массива должно быть не меньше 2 и не больше 500 ';
@@ -85,11 +85,11 @@
             isStop = false;
             animations = [];
             originalBubbles.hide()
-                .addClass('old-bubbles-js');
+                .addClass('old-bubbles');
             element.after(originalBubbles);
 
 
-            $('.old-bubbles-js').fadeIn(500, function () {
+            $('.old-bubbles').fadeIn(500, function () {
                 element.find('p').text('Идёт сортировка...');
                 for (var i = 0; i < len; i++) {
                     for (var j = 0; j < len - i - 1; j++) {
@@ -139,7 +139,7 @@
             currentBubbles[0].resume();
             currentBubbles[1].resume();
             isStop = true;
-            $('.old-bubbles-js').remove();
+            $('.old-bubbles').remove();
             $('.bubbles').html('');
         };
 
@@ -172,11 +172,14 @@
          * @private
          */
         function _afterSort() {
+            console.log('here');
             $('.buttons__generate').removeClass('disabled');
             element.find('p').text('Отсортированный массив:');
             $('.buttons__pause').addClass('disabled');
             $('.buttons__stop').addClass('disabled');
             $('.buttons__pause').addClass('disabled');
+            $('.buttons__increase-speed').addClass('disabled');
+            $('.buttons__decrease-speed').addClass('disabled');
             animations = [];
             isStop = false;
         }
@@ -225,6 +228,8 @@
                                     $bubble2.removeClass('bubble-current--green');
                                     if (animations[index + 1]) {
                                         _animateBubbles(animations, index + 1)
+                                    } else {
+                                        _afterSort();
                                     }
                                 });
                             });
@@ -239,9 +244,10 @@
                             $bubble1.css({top: bubble1TopOffset, left: bubble1LeftOffset});
                             if (animations[index + 1]) {
                                 _animateBubbles(animations, index + 1)
+                            } else {
+                                _afterSort();
                             }
                         });
-
                     }
                 });
                 });

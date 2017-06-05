@@ -125,6 +125,11 @@
     -webkit-user-select: none;
 
 }
+
+.old-bubbles p {
+    padding-top: 70px;
+}
+
 .bubble-current--red {
     -webkit-animation: pulse--red 1.5s infinite;
     animation: pulse--red 1.5s infinite;
